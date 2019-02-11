@@ -43,7 +43,7 @@ print("=" * 10, "Section 2.6 keyboard input", "=" * 10)
 # 2) Print a line that greets the user by name. Example: Hello, Meri
 
 name = input('Please enter your name.')
-print(name,"? Well, that's one thing to call a kid I guess.")
+print(name, "? Well, that's one thing to call a kid I guess.")
 
 # TODO 2.6 - 2.7 numeric input, performing calculations
 print("=" * 10, "Section 2.6-2.7 numeric input and calculations", "=" * 10)
