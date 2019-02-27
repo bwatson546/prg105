@@ -2,7 +2,6 @@ time = int(input("HOW MUCH TIME HAS BEEN WASTED?"))
 print('Days   |\t   Pay')
 print('-------------------')
 total = 0
-penny = 0.01
 pay = 0.01
 
 for days in range(time):
