@@ -83,5 +83,5 @@ while number < 1 or number > 10:
     number = int(input("Enter a number between 1 and 10: "))
     if number < 1 or number > 10:
         print("Not a valid number.")
-    if number > 1 or number < 10:
+    if number >= 1 and number <= 10:
         print("That tracks.")
