@@ -1,5 +1,6 @@
 def main():     # run yearly(), which runs monthly(), which is working
-    yearly()    # better than everything else I tried even if I'm not sure it's what we're supposed to be doing
+    monthly_total = monthly()
+    yearly(monthly_total)    # better than everything else I tried even if I'm not sure it's what we're supposed to be doing
 
 
 def monthly():  # input monthly costs
@@ -13,8 +14,7 @@ def monthly():  # input monthly costs
     return monthly_total
 
 
-def yearly():  # run monthly(), grabbing the monthly_total and putting it in here
-    cost = monthly()
+def yearly(cost):  # run monthly(), grabbing the monthly_total and putting it in here
     yearly_total = float(cost * 12)
     print("Your yearly automobile costs are: $", format(yearly_total, ",.2f"), "! Maybe ride a bike instead!")
 
