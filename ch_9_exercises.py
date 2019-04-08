@@ -23,7 +23,7 @@ miles_ridden = {'June 1': 25, 'June 2': 20, 'June 3': 38, 'June 4': 12, 'June 5'
 
 # 1) Print the keys and the values of miles_ridden using a for loop
 
-for x,y in miles_ridden.items():
+for x, y in miles_ridden.items():
     print(x, ' ', y)
 
 
