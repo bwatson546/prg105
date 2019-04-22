@@ -1,9 +1,9 @@
-import office_furniture
+import officefurniture
 
 
-class Desk(office_furniture):
+class Desk(officefurniture.OfficeFurniture):
     def __init__(self, descrip, category, material, length, width, height, price, location_of_drawers, number_drawers):
-        office_furniture.OfficeFurniture.__init__(self, descrip, category, material, length, width, height, price)
+        officefurniture.OfficeFurniture.__init__(self, descrip, category, material, length, width, height, price)
         self.__location_of_drawers = location_of_drawers
         self.__number_drawers = number_drawers
 
