@@ -29,6 +29,12 @@ class ProductionWorker(Employee):
         self.__pay_rate = pay_rate
 
     def get_shift(self):
+        if self.__shift == "1":
+            self.__shift = "Day"
+        elif self.__shift == "2":
+            self.__shift = "Night"
+        else:
+            self.__shift = "INVALID SHIFT"
         return self.__shift
 
     def get_pay_rate(self):
