@@ -2,11 +2,20 @@ import tkinter
 import tkinter.messagebox
 import pickle
 
+
 # game start
 class GameGUI:
-    def __init__(self, start):
-        self.start = start
-        self.start.title("WIRES")
+    def __init__(self, master):
+        # Open nonsense repository for opening shenanigans in later playthroughs
+        try:
+            fun_file = open("nonsense.txt", 'w')
+            self.nonsense = pickle.load(fun_file)
+            fun_file.close()
+        except (FileNotFoundError, IOError):
+            self.nonsense = {}
+
+        self.master = master
+        self.master.title("WIRES")
 
         # variables
         self.fname = tkinter.StringVar()
@@ -17,8 +26,8 @@ class GameGUI:
         self.conf = 0
 
         # create frames
-        self.top_frame = tkinter.Frame(self.start)
-        self.bottom_frame = tkinter.Frame(self.start)
+        self.top_frame = tkinter.Frame(self.master)
+        self.bottom_frame = tkinter.Frame(self.master)
 
         # top frame widgets, info entry
         self.fname_label = tkinter.Label(self.top_frame, text="please enter your given name.")
@@ -42,10 +51,11 @@ class GameGUI:
         self.age_entry.pack(side="top")
         self.zod_label.pack(side="top")
         self.zod_entry.pack(side="top")
+        self.info_conf.pack(side='top')
 
         # buttons
         self.conf_but = tkinter.Button(self.bottom_frame, text="confirm", command=self.confirm)
-        self.quit_but = tkinter.Button(self.bottom_frame, text="leave", command=self.start.destroy)
+        self.quit_but = tkinter.Button(self.bottom_frame, text="leave", command=self.master.destroy)
 
         # button box, pack 'em in it
         self.conf_but.pack(side="left")
@@ -60,17 +70,20 @@ class GameGUI:
 
         # confirms the entry, shows it to the player, asks for additional confirmation
     def confirm(self):
-        fname = str(self.fname_entry.get())
-        lname = str(self.lname_entry.get())
-        age = str(self.age_entry.get())
-        zod = str(self.zod_entry.get())
-
+        fname = self.fname_entry.get()
+        lname = self.lname_entry.get()
+        age = self.age_entry.get()
+        zod = self.zod_entry.get()
         # Make one press show the info, and the next run the game
         if self.conf == 0:
             self.conf += 1
-            self.info.set('Your name is ' + fname + lname + '. You are ' + age + ' years old. Your star sign is ' + zod + '. If this is correct, please press Confirm again.')
+            self.info.set('Your name is ' + str(fname) + str(lname) + '.\nYou are ' + str(age) + ' years old.\nYour star sign is ' + str(zod) + '.\nIf this is correct, please press confirm again.\n')
         elif self.conf == 1:
-            _ = BeginGUI(self.start)
+            self.nonsense[fname] = lname, age, zod
+            outfile = open('nonsense.txt', 'w')
+            pickle.dump(self.nonsense, outfile)
+            outfile.close()
+            _ = BeginGUI(self.master)
 
         # GAME MECHANIC: self.conf also tracks meta nonsense, adding to it at certain story points.
         else:
@@ -78,18 +91,43 @@ class GameGUI:
 
 
 class BeginGUI:
-    def __init__(self, start):
+    def __init__(self, master):
         # I am definitely going to need a nonsense repository to store values
         try:
-            fun_file = open("nonsense.dat", 'rw')
+            fun_file = open("nonsense.txt", 'w')
             self.nonsense = pickle.load(fun_file)
             fun_file.close()
         except (FileNotFoundError, IOError):
             self.nonsense = {}
 
+        self.begin = tkinter.Toplevel(master)
+        self.begin.title('AGREEMENT')
 
+        # variables here
 
+        # the warning
+        self.warn_frame = tkinter.Frame(self.begin)
+        self.warn_frame_label = tkinter.Label(self.begin, text='All decisions you are about to make are final.\nThere is no saving in this game.\nThere is no back button.\nIf you wish to make another choice,\nyou will have to make all of your choices again.\nDo you understand this?')
+        self.warn_frame_label.pack(side='top')
+        self.warn_frame.pack()
 
+        # Button frame
+        self.button_frame = tkinter.Frame(self.begin)
+
+        # Buttons
+        self.accept_button = tkinter.Button(self.button_frame, text='I do', command=self.scene1)
+        self.decline_button = tkinter.Button(self.button_frame, text='I don\'t', command=self.back)
+
+        # packin'
+        self.accept_button.pack()
+        self.decline_button.pack()
+        self.button_frame.pack()
+
+    def scene1(self):
+        return
+
+    def back(self):
+        return
 
 
 def main():
