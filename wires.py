@@ -8,7 +8,7 @@ class GameGUI:
     def __init__(self, master):
         # Open nonsense repository for opening shenanigans in later playthroughs
         try:
-            fun_file = open("nonsense.txt", 'w')
+            fun_file = open("nonsense.dat", 'wb')
             self.nonsense = pickle.load(fun_file)
             fun_file.close()
         except (FileNotFoundError, IOError):
@@ -23,7 +23,8 @@ class GameGUI:
         self.age = tkinter.StringVar()
         self.zod = tkinter.StringVar()
         self.info = tkinter.StringVar()
-        self.conf = 0
+        global conf
+        conf = 0
 
         # create frames
         self.top_frame = tkinter.Frame(self.master)
@@ -75,12 +76,13 @@ class GameGUI:
         age = self.age_entry.get()
         zod = self.zod_entry.get()
         # Make one press show the info, and the next run the game
-        if self.conf == 0:
-            self.conf += 1
-            self.info.set('Your name is ' + str(fname) + str(lname) + '.\nYou are ' + str(age) + ' years old.\nYour star sign is ' + str(zod) + '.\nIf this is correct, please press confirm again.\n')
-        elif self.conf == 1:
+        global conf
+        if conf == 0:
+            conf += 1
+            self.info.set('Your name is ' + str(fname) + ' ' + str(lname) + '.\nYou are ' + str(age) + ' years old.\nYour star sign is ' + str(zod) + '.\nIf this is correct, please press confirm again.\n')
+        elif conf == 1:
             self.nonsense[fname] = lname, age, zod
-            outfile = open('nonsense.txt', 'w')
+            outfile = open('nonsense.dat', 'wb')
             pickle.dump(self.nonsense, outfile)
             outfile.close()
             _ = BeginGUI(self.master)
@@ -94,7 +96,7 @@ class BeginGUI:
     def __init__(self, master):
         # I am definitely going to need a nonsense repository to store values
         try:
-            fun_file = open("nonsense.txt", 'w')
+            fun_file = open("nonsense.dat", 'wb')
             self.nonsense = pickle.load(fun_file)
             fun_file.close()
         except (FileNotFoundError, IOError):
@@ -115,19 +117,41 @@ class BeginGUI:
         self.button_frame = tkinter.Frame(self.begin)
 
         # Buttons
-        self.accept_button = tkinter.Button(self.button_frame, text='I do', command=self.scene1)
+        self.accept_button = tkinter.Button(self.button_frame, text='I do', command=self.start_story)
         self.decline_button = tkinter.Button(self.button_frame, text='I don\'t', command=self.back)
 
         # packin'
-        self.accept_button.pack()
-        self.decline_button.pack()
-        self.button_frame.pack()
+        self.accept_button.pack(side='left')
+        self.decline_button.pack(side='right')
+        self.button_frame.pack(side='bottom')
 
-    def scene1(self):
-        return
+    def start_story(self):
+        _ = Scene1(self.begin)
 
     def back(self):
-        return
+        outfile = open("nonsense.dat", 'wb')
+        pickle.dump(self.nonsense, outfile)
+        outfile.close()
+        self.begin.destroy()
+
+
+class Scene1:
+    def __init__(self, master):
+        try:
+            fun_file = open('nonsense.dat', 'wb')
+            self.nonsense = pickle.load(fun_file)
+            fun_file.close()
+        except(FileNotFoundError, IOError):
+            self.nonsense = {}
+
+        self.scene1 = tkinter.Toplevel(master)
+        self.scene1.title('AWAKE')
+
+        # text frame
+        self.text_frame = tkinter.Frame(self.scene1)
+        self.text_frame_label = tkinter.Label(self.scene1, text='-PLACEHOLDER TEST-\nYOU HAVE ARRIVED IN THE FIRST RUN OPENING.\nNEXT TIME, YOU SHOULD ARRIVE IN THE WEIRD OPENING.\nIF YOU\'RE SEEING THIS UNEXPECTEDLY,\nREMOVE THE conf +=1 AFTER THIS PASSAGE IN THE CODE.')
+        self.text_frame_label.pack(side='top')
+        self.text_frame.pack(side='top')
 
 
 def main():
