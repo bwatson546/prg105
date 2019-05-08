@@ -96,9 +96,58 @@ class ChangeGUI:
         self.status_label.pack(side='left')
         self.locate_frame.pack(side='bottom')
 
-    def check(self):
-        return
+        # current record frame
+        self.current_frame = tkinter.Frame(self.change)
+        self.current_label = tkinter.Label(self.current_frame, text='Current Entry: ')
+        self.current_name_label = tkinter.Label(self.current_frame, textvariable=self.currentName)
+        self.current_data_label = tkinter.Label(self.current_frame, textvariable=self.currentVar)
+        self.current_label.pack(side='top')
+        self.current_name_label.pack(side='left')
+        self.current_data_label.pack(side='right')
+        self.current_frame.pack(side='top')
 
+        # Change Frame
+        self.change_frame = tkinter.Frame(self.change)
+        self.change_label = tkinter.Label(self.change_frame, text='New Email: ')
+        self.change_entry = tkinter.Entry(self.change_frame, width=25)
+        self.change_label.pack(side='left')
+        self.change_entry.pack(side='right')
+        self.change_frame.pack(side='top')
+
+        # Button frame
+        self.button_frame = tkinter.Frame(self.change)
+        self.change_button = tkinter.Button(self.button_frame, text='Change', command=self.changeBut)
+        self.back_button = tkinter.Button(self.button_frame, text='Back', command=self.back)
+        self.change_button.pack(side='left')
+        self.back_button.pack(side='right')
+        self.button_frame.pack(side='top')
+
+    def check(self):
+        name = self.search_frame_entry.get()
+        result = self.customers.get(name, 'Not Found')
+
+        if result == 'Not Found':
+            self.statusVar.set('Not Found')
+            self.currentVar.set('Not Found')
+            self.currentName.set('Not Found')
+
+        else:
+            self.statusVar.set('Record Located')
+            self.currentName.set(name)
+            self.currentVar.set(result)
+
+    def changeBut(self):
+        new = self.change_entry.get()
+        name = self.search_frame_entry.get()
+        self.customers[name] = new
+        self.statusVar.set('Changed')
+        self.currentVar.set(new)
+
+    def back(self):
+        outfile = open('customer_file.dat', 'wb')
+        pickle.dump(self.customers, outfile)
+        outfile.close()
+        self.change.destroy()
 
 class AddGUI:
     def __init__(self, master):
