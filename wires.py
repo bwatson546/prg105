@@ -117,7 +117,7 @@ class BeginGUI:
         self.button_frame = tkinter.Frame(self.begin)
 
         # Buttons
-        self.accept_button = tkinter.Button(self.button_frame, text='I do', command=self.start_story)
+        self.accept_button = tkinter.Button(self.button_frame, text='I do', command=self.transition)
         self.decline_button = tkinter.Button(self.button_frame, text='I don\'t', command=self.back)
 
         # packin'
@@ -125,8 +125,15 @@ class BeginGUI:
         self.decline_button.pack(side='right')
         self.button_frame.pack(side='bottom')
 
-    def start_story(self):
+    def s1(self):
         _ = Scene1(self.begin)
+
+    def clear_window(self):
+        self.begin.withdraw()
+
+    def transition(self):
+        self.s1()
+        self.clear_window()
 
     def back(self):
         outfile = open("nonsense.dat", 'wb')
@@ -135,6 +142,7 @@ class BeginGUI:
         self.begin.destroy()
 
 
+# first scene of the actual game
 class Scene1:
     def __init__(self, master):
         try:
