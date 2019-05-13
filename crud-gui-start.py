@@ -50,8 +50,102 @@ class CrudGUI:
             _ = AddGUI(self.master)
         elif self.radio_var.get() == 3:
             _ = ChangeGUI(self.master)
+        elif self.radio_var.get() == 4:
+            _ = DeleteGUI(self.master)
         else:
             tkinter.messagebox.showinfo('Function', 'still under construction')
+
+
+class DeleteGUI:
+    def __init__(self, master):
+        try:
+            input_file = open("customer_file.dat", 'rb')
+            self.customers = pickle.load(input_file)
+            input_file.close()
+        except (FileNotFoundError, IOError):
+            self.customers = {}
+
+        self.delete = tkinter.Toplevel(master)
+        self.delete.title('Delete Customer Email')
+
+        # Variables
+        self.statusVar = tkinter.StringVar()
+        self.statusVar.set('Unchecked')
+        self.currentVar = tkinter.StringVar()
+        self.currentVar.set('Empty')
+        self.currentName = tkinter.StringVar()
+        self.currentName.set('Empty')
+
+        # Search Frame
+        self.search_frame = tkinter.Frame(self.delete)
+        self.search_frame_label = tkinter.Label(self.delete, text='Enter customer name to delete.')
+        self.search_frame_entry = tkinter.Entry(self.delete, width=25)
+        self.search_frame_label.pack(side='top')
+        self.search_frame_entry.pack(side='top')
+        self.search_frame.pack(side='top')
+
+        # Search Button Frame
+        self.search_button_frame = tkinter.Frame(self.delete)
+        self.search_button = tkinter.Button(self.search_button_frame, text='Locate', command=self.check)
+        self.search_button.pack(side='bottom')
+        self.search_button_frame.pack(side='bottom')
+
+        # Locate Frame
+        self.locate_frame = tkinter.Frame(self.delete)
+        self.result_label = tkinter.Label(self.locate_frame, text='Record Status: ')
+        self.status_label = tkinter.Label(self.locate_frame, textvariable=self.statusVar)
+        self.result_label.pack(side='left')
+        self.status_label.pack(side='left')
+        self.locate_frame.pack(side='bottom')
+
+        # current record frame
+        self.current_frame = tkinter.Frame(self.delete)
+        self.current_label = tkinter.Label(self.current_frame, text='Current Entry: ')
+        self.current_name_label = tkinter.Label(self.current_frame, textvariable=self.currentName)
+        self.current_data_label = tkinter.Label(self.current_frame, textvariable=self.currentVar)
+        self.current_label.pack(side='top')
+        self.current_name_label.pack(side='left')
+        self.current_data_label.pack(side='right')
+        self.current_frame.pack(side='top')
+
+        # Button frame
+        self.button_frame = tkinter.Frame(self.delete)
+        self.delete_button = tkinter.Button(self.button_frame, text='Delete', command=self.deleteBut)
+        self.back_button = tkinter.Button(self.button_frame, text='Main Menu', command=self.back)
+        self.delete_button.pack(side='left')
+        self.back_button.pack(side='right')
+        self.button_frame.pack(side='top')
+
+    def check(self):
+        name = self.search_frame_entry.get()
+        result = self.customers.get(name, 'Not Found')
+
+        if result == 'Not Found':
+            self.statusVar.set('Not Found')
+            self.currentVar.set('Not Found')
+            self.currentName.set('Not Found')
+
+        else:
+            self.statusVar.set('Record Located')
+            self.currentName.set(name)
+            self.currentVar.set(result)
+
+    def deleteBut(self):
+        name = self.search_frame_entry.get()
+        try:
+            del self.customers[name]
+            self.statusVar.set('RECORD DELETED')
+            self.currentVar.set('DELETED')
+            self.currentName.set('DELETED')
+            tkinter.messagebox.showinfo('Deleted', 'Record deleted.')
+        except KeyError:
+            tkinter.messagebox.showinfo('ERROR', 'RECORD NOT FOUND')
+
+    def back(self):
+        outfile = open('customer_file.dat', 'wb')
+        pickle.dump(self.customers, outfile)
+        outfile.close()
+        self.delete.destroy()
 
 
 class ChangeGUI:
@@ -148,6 +242,7 @@ class ChangeGUI:
         pickle.dump(self.customers, outfile)
         outfile.close()
         self.change.destroy()
+
 
 class AddGUI:
     def __init__(self, master):
