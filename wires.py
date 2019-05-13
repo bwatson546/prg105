@@ -86,8 +86,14 @@ class GameGUI:
             pickle.dump(self.nonsense, outfile)
             outfile.close()
             _ = BeginGUI(self.master)
+        elif conf == 2:
+            self.nonsense[fname] = lname, age, zod
+            outfile = open('nonsense.dat', 'wb')
+            pickle.dump(self.nonsense, outfile)
+            outfile.close()
+            _ = spScene1(self.master)
 
-        # GAME MECHANIC: self.conf also tracks meta nonsense, adding to it at certain story points.
+        # GAME MECHANIC: global conf also tracks meta nonsense, adding to it at certain story points.
         else:
             self.info.set('NONSENSE PLACEHOLDER')
 
@@ -155,11 +161,35 @@ class Scene1:
         self.scene1 = tkinter.Toplevel(master)
         self.scene1.title('AWAKE')
 
+        # variables
+        global conf
+
         # text frame
         self.text_frame = tkinter.Frame(self.scene1)
         self.text_frame_label = tkinter.Label(self.scene1, text='-PLACEHOLDER TEST-\nYOU HAVE ARRIVED IN THE FIRST RUN OPENING.\nNEXT TIME, YOU SHOULD ARRIVE IN THE WEIRD OPENING.\nIF YOU\'RE SEEING THIS UNEXPECTEDLY,\nREMOVE THE conf +=1 AFTER THIS PASSAGE IN THE CODE.')
+        conf += 1
         self.text_frame_label.pack(side='top')
         self.text_frame.pack(side='top')
+
+
+class spScene1:
+    def __init__(self, master):
+        try:
+            fun_file = open("nonsense.dat", 'wb')
+            self.nonsense = pickle.load(fun_file)
+            fun_file.close()
+        except (FileNotFoundError, IOError):
+            self.nonsense = {}
+
+        # variables
+        global conf
+
+        self.special1 = tkinter.Toplevel(master)
+        self.special1.title("OH WHOA")
+
+        self.sp1_frame = tkinter.Frame(self.special1)
+        self.sp1_framel_label = tkinter.Label(self.special1, text='-PLACEHOLDER TEST SP1-\nYOU HAVE ARRIVED IN THE FIRST SPECIAL SCENE. THE conf IS NOW AT ' + str(conf) + '. IT WILL NOW BE REDUCED BY 1, SO THE NEXT BOOT SHOULD BRING UP THE ORIGINAL INTRO PH.')
+        conf -= 1
 
 
 def main():
