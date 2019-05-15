@@ -1,11 +1,18 @@
 import tkinter
 import tkinter.messagebox
 import random
+import pickle
 
 
 # game start
 class GameGUI:
     def __init__(self, master):
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
 
         self.master = master
         self.master.title("WIRES")
@@ -419,7 +426,7 @@ class Scene3b:
         # text frame
         self.sc3b_frame = tkinter.Frame(self.scene3b)
         self.sc3b_frame_label = tkinter.Label(self.scene3b, text='-NOW.-')
-        self.sc3b_frame_text = tkinter.Label(self.scene3b, text='You clear your throat, a thundering roar that commands the attention of the nervous horde. Their eyes on you, you intone;\n\n\'The last one to speak today, should they displease me, will be executed.\nThe rest will be safe.\'\n\nThis wakes them up neatly, triggering a scramble to the throne. For a while, they desperately try to give their grievances, until another rumble from your throat demands order. After this, their petty squabbles invade your ears, one at a time,\n\njust\n\nso\n\nslowly.')
+        self.sc3b_frame_text = tkinter.Label(self.scene3b, text='You clear your throat, a thundering roar that commands the attention of the nervous horde.\nTheir eyes on you, you intone;\n\n\'The last one to speak today, should they displease me, will be executed.\nThe rest will be safe.\'\n\nThis wakes them up neatly, triggering a scramble to the throne.\nFor a while, they desperately try to give their grievances,\nuntil another rumble from your throat demands order.\nAfter this, their petty squabbles invade your ears,\n\none at a time,\n\njust\n\nso\n\nslowly.')
         self.sc3b_frame_label.pack(side='top')
         self.sc3b_frame_text.pack(side='top', anchor='w')
         self.sc3b_frame.pack(side='top')
@@ -453,6 +460,12 @@ class Scene3b:
 
 class Scene3c:
     def __init__(self, master):
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         self.scene3c = tkinter.Toplevel(master)
         self.scene3c.title('AWAKE')
 
@@ -490,17 +503,28 @@ class Scene3c:
         self.button_frame.pack(side='bottom')
 
     def sc3c_op1(self):
+        id1 = 1
+        self.id[id1] = '91'
         tkinter.messagebox.showinfo('', 'END')
 
     def transition1(self):
         self.sc3c_op1()
         global conf
         conf += 1
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
         self.scene3c.destroy()
 
 
 class Scene4a:
     def __init__(self, master):
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         self.scene4a = tkinter.Toplevel(master)
         self.scene4a.title('AWAKE')
 
@@ -542,17 +566,28 @@ class Scene4a:
         self.button_frame.pack(side='bottom')
 
     def sc4a_op1(self):
+        id1 = 1
+        self.id[id1] = '83'
         tkinter.messagebox.showinfo('', 'END')
 
     def transition1(self):
         self.sc4a_op1()
         global conf
         conf += 1
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
         self.scene4a.destroy()
 
 
 class Scene4b:
     def __init__(self, master):
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         self.scene4b = tkinter.Toplevel(master)
         self.scene4b.title('AWAKE')
 
@@ -586,6 +621,8 @@ class Scene4b:
         self.button_frame.pack(side='bottom')
 
     def sc4b_op1(self):
+        id1 = 1
+        self.id[id1] = '77'
         tkinter.messagebox.showinfo('', 'END')
 
     def transition1(self):
@@ -653,7 +690,12 @@ class A2S1:
 
 class A2S1r:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         # variables
         global conf
 
@@ -704,7 +746,12 @@ class A2S1r:
         self.clear_window()
 
     def back(self):
-        tkinter.messagebox.showinfo('','You hang up in frustration.\n\'I\'ll have to try to call again tomorrow,\' you think glumly, feeling the pull of the wires ever tighter.\nYour number is 31.\n')
+        tkinter.messagebox.showinfo('', 'You hang up in frustration.\n\'I\'ll have to try to call again tomorrow,\' you think glumly, feeling the pull of the wires ever tighter.\nYour number is 31.\n')
+        id2 = 2
+        self.id[id2] = '31'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
         global conf
         conf += 1
         self.a2s1r.destroy()
@@ -712,7 +759,12 @@ class A2S1r:
 
 class A2S2:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         # variables
         global conf
 
@@ -763,12 +815,25 @@ class A2S2:
         self.clear_window()
 
     def back(self):
+        tkinter.messagebox.showinfo('', 'You hang up in frustration.\n\'I\'ll have to try to call again tomorrow,\' you think glumly, feeling the pull of the wires ever tighter.\nYour number is 31.\n')
+        id2 = 2
+        self.id[id2] = '31'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
+        global conf
+        conf += 1
         self.a2s2.destroy()
 
 
 class A2S3:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         # variables
         global conf
 
@@ -819,12 +884,25 @@ class A2S3:
         self.clear_window()
 
     def back(self):
+        tkinter.messagebox.showinfo('', 'You hang up in frustration.\n\'I\'ll have to try to call again tomorrow,\' you think glumly, feeling the pull of the wires ever tighter.\nYour number is 31.\n')
+        id2 = 2
+        self.id[id2] = '31'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
+        global conf
+        conf += 1
         self.a2s3.destroy()
 
 
 class A2S4:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         # variables
         global conf
 
@@ -875,12 +953,25 @@ class A2S4:
         self.clear_window()
 
     def back(self):
+        tkinter.messagebox.showinfo('', 'You hang up in frustration.\n\'I\'ll have to try to call again tomorrow,\' you think glumly, feeling the pull of the wires ever tighter.\nYour number is 31.\n')
+        id2 = 2
+        self.id[id2] = '31'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
+        global conf
+        conf += 1
         self.a2s4.destroy()
 
 
 class A2S5:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         # variables
         global conf
 
@@ -931,12 +1022,25 @@ class A2S5:
         self.clear_window()
 
     def back(self):
+        tkinter.messagebox.showinfo('', 'You hang up in frustration.\n\'I\'ll have to try to call again tomorrow,\' you think glumly, feeling the pull of the wires ever tighter.\nYour number is 31.\n')
+        id2 = 2
+        self.id[id2] = '31'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
+        global conf
+        conf += 1
         self.a2s5.destroy()
 
 
 class A2S6:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         # variables
         global conf
 
@@ -987,12 +1091,25 @@ class A2S6:
         self.clear_window()
 
     def back(self):
+        tkinter.messagebox.showinfo('', 'You hang up in frustration.\n\'I\'ll have to try to call again tomorrow,\' you think glumly, feeling the pull of the wires ever tighter.\nYour number is 31.\n')
+        id2 = 2
+        self.id[id2] = '31'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
+        global conf
+        conf += 1
         self.a2s6.destroy()
 
 
 class A2E:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         # variables
         global conf
 
@@ -1019,6 +1136,11 @@ class A2E:
 
     # choice machine for phone menu
     def forward(self):
+        id2 = 2
+        self.id[id2] = '15'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
         global conf
         conf += 1
 
@@ -1100,7 +1222,12 @@ class A3S1:
 
 class A3E:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         self.a3e = tkinter.Toplevel(master)
         self.a3e.title('AFRAID')
 
@@ -1109,23 +1236,27 @@ class A3E:
         global age
         global gend
         gen = 0
+        pronoun = 0
         if gend == 1:
             gen = 'man'
+            pronoun = 'him'
         if gend == 2:
             gen = 'woman'
+            pronoun = 'her'
         if gend == 3:
             gen = 'person'
+            pronoun = 'them'
 
         # text frame
         self.a3e_frame = tkinter.Frame(self.a3e)
         self.a3e_frame_label = tkinter.Label(self.a3e, text='-A CLEAN KILL-')
-        self.a3e_frame_text = tkinter.Label(self.a3e, text='The trigger is pulled, and your target crumples.\n\nYou pack up as you were trained to do and leave immediately,\nrushing to avoid the diligent security now on your trail.\n\nYou rush out of the city and into the wilderness, search lights shining from helicopters and panic running through your mind.\n\nYou were just a normal ' + gen + '.\n\nYou didn\'t want this.\n\nBut your friend\'s idealism let the wires into you, and now you belong to them.')
+        self.a3e_frame_text = tkinter.Label(self.a3e, text='The trigger is pulled, and your target crumples.\n\nYou pack up as you were trained to do and leave immediately,\nrushing to avoid the diligent security now on your trail.\n\nYou rush out of the city and into the wilderness, search lights shining from helicopters and panic running through your mind.\n\nYou were just a normal ' + gen + '.\n\nYou didn\'t want this.\n\nBut your friend\'s idealism let the wires into you, and now you belong to them.\nThe assassin\'s number is 52.')
 
         # Button frame
         self.button_frame = tkinter.Frame(self.a3e)
 
         # buttons
-        self.op1_button = tkinter.Button(self.button_frame, text='THE WIRES GOT THE BEST OF ' + gen + '.', command=self.transition1)
+        self.op1_button = tkinter.Button(self.button_frame, text='THE WIRES GOT THE BEST OF ' + pronoun.upper() + '.', command=self.transition1)
 
         self.op1_button.pack(side='left')
 
@@ -1135,6 +1266,11 @@ class A3E:
         self.button_frame.pack(side='bottom')
 
     def end(self):
+        id3 = 3
+        self.id[id3] = '52'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
         tkinter.messagebox.showinfo('', 'END')
 
     def transition1(self):
@@ -1156,7 +1292,12 @@ class A3E:
 
 class A3F:
     def __init__(self, master):
-
+        try:
+            id_file = open("id_file.dat", 'rb')
+            self.id = pickle.load(id_file)
+            id_file.close()
+        except (FileNotFoundError, IOError):
+            self.id = {}
         self.a3f = tkinter.Toplevel(master)
         self.a3f.title('AFRAID')
 
@@ -1175,7 +1316,7 @@ class A3F:
         # text frame
         self.a3f_frame = tkinter.Frame(self.a3f)
         self.a3f_frame_label = tkinter.Label(self.a3f, text='-ESCAPE-')
-        self.a3f_frame_text = tkinter.Label(self.a3f, text='This... is insane. You aren\'t meant to do this. This isn\'t any of your business.\nYou turn to flee, and don\'t get far before the rebel assigned to watch you catches up.\nThe President may live, but as the bag descends over your head and your arms are bound in wire,\nyou know you\'re on the way out.')
+        self.a3f_frame_text = tkinter.Label(self.a3f, text='This... is insane. You aren\'t meant to do this. This isn\'t any of your business.\nYou turn to flee, and don\'t get far before the rebel assigned to watch you catches up.\nThe President may live, but as the bag descends over your head and your arms are bound in wire,\nyou know you\'re on the way out.\nThe coward\'s number is 28.')
 
         # Button frame
         self.button_frame = tkinter.Frame(self.a3f)
@@ -1191,6 +1332,11 @@ class A3F:
         self.button_frame.pack(side='bottom')
 
     def end(self):
+        id3 = 3
+        self.id[id3] = '28'
+        outfile = open('id_file.dat', 'wb')
+        pickle.dump(self.id, outfile)
+        outfile.close()
         tkinter.messagebox.showinfo('', 'END')
 
     def transition1(self):
